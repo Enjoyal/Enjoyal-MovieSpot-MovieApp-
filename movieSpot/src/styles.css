@@ -1,0 +1,414 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700&family=Open+Sans&family=Titillium+Web:wght@300;400;600;700;800&display=swap');
+
+:root{
+    --bg-color:#333;
+    --main-color:#;
+    --black:#050505;
+    --blue-color: #03a5fc;
+    --transparent:rgba(0,0,0,0.75);
+
+    
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    color: #fff;
+
+}
+
+
+body{
+  /* font-family: 'Inter', sans-serif; */
+  /* font-family: 'Open Sans', sans-serif; */
+  /* font-family: 'Mulish', sans-serif; */
+  font-family: 'Titillium Web', sans-serif;
+
+  background-color: var(--black);
+  color: #fff;
+  overflow-x:hidden;
+
+}
+
+body::-webkit-scrollbar{
+  background-color: #03a5fc;
+  display: none;
+}
+
+
+nav{
+    background :rgba(0,0,0,0.75);
+    position: sticky;
+    
+}
+
+.navbar-brand{
+    font-size: 28px;
+    font-weight: bold;
+
+}
+
+.navbar-toggler{
+  background: var(--blue-color);
+}
+.navbar-brand span{
+    color: var(--blue-color);
+
+}
+
+.navbar-nav{
+  margin-left: 50px;
+}
+
+.navbar-nav li a{
+    color: #fff;
+    cursor: pointer;
+    transition: .5s ease;
+    border-radius: 10px;
+    margin-left: 10px;
+    padding: -20px;
+    
+}
+
+.navbar-nav li a:hover{
+  background-color:rgb(3, 165, 252, 0.5) ;
+  color:#fff;
+}
+/* .navbar-nav li a:focus{
+  color: #fff;
+  background-color:var(--blue-color) ;
+} */
+.navbar-nav li a:hover i{ 
+    color: #fff;
+
+}
+
+
+
+
+
+
+
+
+/* cards */
+.contain {
+    position: relative;
+    height: 350px;
+    width: 250px;
+    transition: .5s ease;
+  }
+  
+  .contain .image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    height: auto;
+    transition: .5s ease;
+  }
+
+  .contain:hover .image{
+    transform: scale(1.09);
+    cursor: pointer;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 210px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 205px;
+    width: 100%;
+    padding: 5px 10px;
+    opacity: 0;
+    transition: .5s ease;
+    background: var(--transparent);
+    /* background-color: #008CBA; */
+  }
+  
+  .contain:hover .overlay {
+    opacity: 1;
+  }
+  
+  .text h6{
+    /* color: var(--blue-color); */
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .overlay p{
+    font-size: 14px;
+    margin-top: -10px;
+  }
+  .overlay .rating i{
+    color: var(--blue-color);
+  }
+  .icon-container{
+    margin-top: -20px;
+    padding:8px 0;
+    align-items: center;
+
+  }
+  .icon-container a{
+    align-items: center;
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    border: 2px solid #fff;
+    color: #fff;
+    padding-top: 6.2px;
+    transition: .5s ease;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .icon-container .fa-arrow-up-right-from-square{
+    font-size: 20px;
+    padding-top: 7.8px;
+
+
+  }
+
+  .icon-container a:hover{
+    color: #000;
+    background-color: #fff;
+  }
+
+  /* drop downs */
+  /* .btn-group .btn:focus{
+    border: 2px solid var(--blue-color)
+
+} */
+/* .dropdown .btn:focus ~ .dropdown-menu {
+    border: 2px solid var(--blue-color)
+
+} */
+
+/* Modal popup */
+
+
+.modal .popup-modal{
+  background-color: rgba(0, 0, 0, 0.85);
+  box-shadow: var(--blue-color) 0px 7px 29px 0px;
+  /* box-shadow: var(--blue-color) 0px 5px 15px;    
+  height: 300px; */
+}
+.modal-body i{
+  color: var(--blue-color);
+}
+
+
+
+
+
+
+
+
+
+
+
+footer{
+    width: 100%;
+    background: #0c0c0c;
+    margin-top: 70px;
+    margin-bottom: 0;
+    /* border-top: 2px solid #333; */
+    }
+  footer #copyright{
+    background-color: #1a1a1a;
+}
+    footer .container a i{
+        border-radius: 50px;
+        border: none;
+        font-size: 20px;
+       color:var(--blue-color);
+       background-color: #1a1a1a;
+       padding: 10px;
+       transition:.5s ease;
+    }
+    
+    
+    footer .container a i:hover{
+        /* scale: 1.1; */
+        color: #1a1a1a;
+        background-color: var(--blue-color);
+    
+    
+    }
+    
+    
+    footer #copyright a{
+        color: var(--blue-color);
+       transition:.5s ease;
+
+    }
+    
+    footer #copyright a:hover{
+        color: #fff;
+    }
+
+
+
+
+
+
+
+
+
+
+    @media (max-width:600px) {
+
+      .navbar-nav{
+        margin-left: 0;
+      }
+
+      .navbar-nav li a{
+        color: #fff;
+        cursor: pointer;
+        transition: .5s ease;
+        border-radius: 10px;
+        margin-top: 10px;
+        padding: 10px 20px;
+        /* width: 200px; */
+        
+    }
+    
+    .navbar-nav li a:hover{
+        color: #fff;
+        background-color:rgb(3, 165, 252, 0.5) ;
+    }
+      
+    }
+
+    @media(max-width:1000px){
+
+      .navbar-nav{
+        margin-left: 0;
+      }
+
+      .navbar-nav li a{
+        color: #fff;
+        cursor: pointer;
+        transition: .5s ease;
+        border-radius: 10px;
+        margin-top: 10px;
+        padding: 10px 20px;
+        /* width: 200px; */
+        
+    }
+    
+    .navbar-nav li a:hover{
+        color: #fff;
+        background-color:rgb(3, 165, 252, 0.5) ;
+    }
+
+       /* card heading */
+    .movies-collection .row h5{
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+
+    .overlay{
+      opacity: 1;
+    }
+  /* .icon-container{
+    display: none;
+  } */
+
+
+  .more-container{
+    visibility: visible; 
+   }
+   .more-container .more-icon{
+    margin-left: 150px;
+    width: 30px;
+    height: 30px;
+    padding-left: 7.5px;
+    padding-top: 2px;
+    border-radius: 50px;
+  }
+    }
+
+    @media(max-width:500px){
+      body{
+        padding-right:0;
+      }
+
+    header{
+      height: 480px;
+      /* background-color: #fff; */
+      padding: 0;
+    }
+
+  .carousel-inner .carousel-item img
+    {
+      height: 700px;
+      object-fit:contain; 
+      object-position: center;
+    }
+
+    .carousel{
+      margin-top: -142px;
+    }
+    .movies-collection{
+      margin-top: -100px;
+      /* background-color: red; */
+    }
+
+    .carousel-control-prev, .carousel-control-next{
+      opacity: 0;
+    }
+/* dropdown btn */
+    .btn-group{
+      margin-left: 30px;
+      margin-top: 10px;
+    }
+    .dropdown-menu{
+      margin-top: 20px;
+      background-color: rgba(0,0,0,0.5);
+      cursor: pointer;
+    }
+    
+    .dropdown-menu li a{
+      color: #fff;
+    }
+    .dropdown-menu li a:hover{
+      background-color:rgb(3, 165, 252, 0.5) ;
+      color:#fff;
+    }
+    
+    .dropdown-menu li a:hover i{
+      color: #fff;
+    }
+
+    /* card heading */
+    .movies-collection .row h5{
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .overlay{
+      opacity: 1;
+    }
+
+ 
+  /* .icon-container{
+    display: none;
+  } */
+
+  .more-container{
+    visibility: visible; 
+   }
+   .more-container .more-icon{
+    margin-left: 150px;
+    width: 30px;
+    height: 30px;
+    padding-left: 7.5px;
+    padding-top: 2px;
+    border-radius: 50px;
+  }
+    
+    
+  }

@@ -1,0 +1,41 @@
+
+<section>
+<div class="container w-25 py-5 reg" style="min-width: 420px;">
+    <div  class="card text-white" style="border-radius: 1rem;">
+      <div class="card-body p-4 text-center">
+
+          <!-- <h2 class="fw-bold mb-2 text-white">Register</h2> -->
+        <a class="navbar-brand text-white">Movie<span>Spot.</span> </a>
+
+          <p class="text-white-50 mb-4">Please enter username and password!</p>
+
+
+        <form [formGroup]="registerForm" action="">
+
+          <div class="form-outline text-start form-white mb-4">
+
+            <div class="input_box"><input type="text" id="fullname"  formControlName="fullname"  [class.is-invalid]="registerForm.get('fullname')?.invalid && registerForm.get('fullname')?.touched"  placeholder="" class="form-control" required="required"/> <span>Full Name</span></div>
+            <!-- <small class="mb-2 text-danger" *ngIf="this.registerForm.get('fullname')?.errors && this.registerForm.get('fullname')?.touched">Invalid format </small> -->
+
+            <div class="input_box mt-3"><input type="text" id="log_uname"  formControlName="uname"  [class.is-invalid]="registerForm.get('uname')?.invalid && registerForm.get('uname')?.touched"  placeholder="" class="form-control" required="required"/> <span>Username</span></div>
+            <!-- <small class="mb-2 text-danger" *ngIf="this.registerForm.get('uname')?.errors && this.registerForm.get('uname')?.touched">Invalid username </small> -->
+
+            <div class="input_box mt-3"><input type="password" id="log_pswd" formControlName="pswd" [class.is-invalid]="registerForm.get('pswd')?.invalid && registerForm.get('pswd')?.touched" placeholder="" class="form-control"  required="required"/> <span>Password</span></div>
+            <!-- <small class="mb-2 text-danger" *ngIf="this.registerForm.get('pswd')?.errors && this.registerForm.get('pswd')?.touched">Invalid password</small> -->
+
+            <div class="input_box mt-3"><input type="password" id="log_pswd2" formControlName="pswd2" [class.is-invalid]="registerForm.get('pswd2')?.invalid && registerForm.get('pswd2')?.touched" placeholder="" class="form-control"  required="required"/> <span>Confirm Password</span></div>
+            <!-- <small class="mb-2 text-danger" *ngIf="this.registerForm.get('pswd2')?.errors && this.registerForm.get('pswd2')?.touched">Invalid password</small> -->
+            <small *ngIf="pswd2!=pswd && this.registerForm.get('pswd2')?.touched">Password doesn't match</small>
+
+            
+          </div>
+            
+          <button class="btn btn-outline px-4 py-2 mt-2" (click)="register()" type="submit">Register</button>
+
+          <p class="text-white-50 mt-3">Already have an account? <a routerLink="/login" class="text-white fw-bold">Sign In</a></p>
+        </form>
+      </div>  
+    </div>
+</div>
+
+</section>

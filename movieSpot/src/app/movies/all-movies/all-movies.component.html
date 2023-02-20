@@ -1,0 +1,91 @@
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand text-white" routerLink="">Movie<span>Spot.</span> </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav  mb-2 mb-lg-0 ">
+                <li class="nav-item"><a class="nav-link " routerLink="">Home</a></li>
+                <li class="nav-item"><a style="background-color:var(--blue-color);"  class="nav-link " routerLink="/movies/all-movies">Movies</a></li>
+                <li class="nav-item"><a class="nav-link " routerLink="/movies/all-tvshows">TV Shows</a></li>
+                <li class="nav-item"><a class="nav-link " routerLink="/movies/watch-list">+ Watchlist</a></li>
+                <li class="nav-item"><a class="nav-link " routerLink="/movies/search">Search <i class="fa-solid fa-magnifying-glass"></i></a></li>
+            </ul>
+        </div>
+        <!-- Example split danger button -->
+<div class="btn-group ms-4 mt-2">
+    <button type="button" class="btn btn-secondary">{{genre}}</button>
+    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+      <span class="visually-hidden">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" (click)="getMovies('Genre')">All</a></li>
+      <li><a class="dropdown-item" (click)="thrillerMovies('Thriller')">Thriller</a></li>
+      <li><a class="dropdown-item" (click)="actionMovies('Action')">Action</a></li>
+      <li><a class="dropdown-item" (click)="adventureMovies('Adventure')">Adventure</a></li>
+      <li><a class="dropdown-item" (click)="comedyMovies('Comedy')">Comedy</a></li>
+      <li><a class="dropdown-item" (click)="familyMovies('Family')">Family</a></li>
+      <li><a class="dropdown-item" (click)="animeMovies('Animation')">Animation</a></li>
+      <li><a class="dropdown-item" (click)="fantasyMovies('Fantasy')">Fantasy</a></li>
+      <li><a class="dropdown-item" (click)="romanceMovies('Romance')">Romance</a></li>
+      <li><a class="dropdown-item" (click)="horrorMovies('Horror')">Horror</a></li>
+      <li><a class="dropdown-item" (click)="dramaMovies('Drama')">Drama</a></li>
+      <li><a class="dropdown-item" (click)="documentaryMovies('Documentary')">Documentary </a></li>
+      <li><hr class="dropdown-divider" ></li>
+    </ul>
+  </div>
+    </div>
+</nav>
+
+<!-- 
+<div class="container-fluid empty" style="width: 100%; margin-top: 100px;" >
+  <div class="container m-5 p-5" *ngIf="moviesResult==0">
+      <div class="row text-center">
+          <div class="col">
+              <img style="width: 200px;" src="https://media.tenor.com/UnFx-k_lSckAAAAM/amalie-steiness.gif" alt="">
+          </div>
+      </div>
+  </div>
+</div> -->
+
+
+<div  class="movie-container row row-cols-xl-6   mt-5 pt-2 ps-2 pe-2 justify-content-justify" *ngIf="moviesResult">  
+    <div class="col" *ngFor="let movie of moviesResult">
+    
+        <div class="container contain mt-5">
+            <img (click)="movieId(movie)"  routerLink="/movie-details" class="image"  src="https://image.tmdb.org/t/p/original/{{ movie.poster_path }}" alt="..."  *ngIf="movie.poster_path">
+            <div class="overlay"  >
+              <div class="text mt-2" *ngIf="movie.title || movie.name"><h6 class="text-white">{{movie.title || movie.name}}</h6></div>
+              <p class="text-secondary">{{movie.release_date.slice(0,4) || movie.first_air_date}}</p>
+              <p class="rating" *ngIf="movie.vote_average!=0 || movie.vote_average"> <i class="fa fa-star"></i> {{movie.vote_average.toString().slice(0,3)}}</p> 
+              <div class="icon-container  text-center">
+                <a  class="fa fa-light fa-circle-play rounded-circle"></a>
+                <a (click)="addtoWatchlist(movie)" class="fa-solid fa-plus rounded-circle ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal"></a>
+              </div>
+            </div>
+        </div>
+
+             <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-sm modal-dialog-centered">
+              <div class="modal-content popup-modal">
+                  
+                  <div class="modal-body text-capitalize text-center" *ngIf="successmsg=='Saved to Watchlist' ">
+                      Movie {{successmsg}} <i class="fa-regular fa-circle-check"></i>
+                  </div>
+                  <div class="modal-body text-capitalize text-center" *ngIf="successmsg=='already exist in the Watchlist' ">
+                      Movie {{successmsg}} <i class="fa-solid fa-circle-exclamation"></i>
+                  </div>
+                   <!-- without login -->
+                <div class="modal-body text-capitalize text-center" *ngIf="emsg">
+                  {{emsg}} <i class="fa-solid fa-circle-exclamation"></i>
+              </div>
+              </div>
+              </div>
+            </div>
+    
+    </div>
+    </div>
+

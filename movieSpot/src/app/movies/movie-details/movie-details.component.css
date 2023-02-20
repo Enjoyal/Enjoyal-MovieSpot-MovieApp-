@@ -1,0 +1,396 @@
+
+
+section{
+    /* background-image : linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.3), url('https://image.tmdb.org/t/p/original/{{ movieDetails.backdrop_path }}')); */
+    margin-top: -50px;
+    background-repeat: no-repeat;
+    background-size:contain;
+    min-height: 100vh;
+    padding-top: 80px;
+}
+
+
+.details-container h1{
+    font-weight: bold;
+}
+
+  .overview{
+    font-size: 18px;
+
+  }
+ p{
+    color: #eee;
+}
+
+
+
+#trailer{
+    color: #fff;
+    background-color: green; 
+    transition: .45s ease;
+}
+#trailer:hover{
+    
+    background-color: rgba(0, 0, 0, 0.3);
+    color: green;
+    border: 1px solid green;
+}
+#trailer:hover i{
+    
+  color: green;
+  transition: .45s ease;
+
+}
+
+.review-btn{
+    background:var(--blue-color);
+    color: #fff;
+    transition: .45s ease;
+
+
+}
+.review-btn:hover{
+    color: var(--blue-color);
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--blue-color);
+}
+
+.review-btn:hover i{
+    color: var(--blue-color);
+    transition: .45s ease;
+
+}
+.btn-outline{
+  color: var(--blue-color);
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--blue-color);
+  transition: .45s ease;
+
+}
+
+.btn-outline:hover{
+  background:var(--blue-color);
+  color: #fff;
+}
+.btn-outline i{
+  color: var(--blue-color);
+  transition: .45s ease;
+}
+.btn-outline:hover i{
+  color:#fff;
+}
+
+.text-bg-secondary{
+    width: fit-content;
+    padding:0 10px;
+    /* margin-bottom: 20px; */
+
+}
+
+
+.rating{
+    display: flex;
+    list-style-type: none;
+    padding: 16px;
+    margin-left: -15px;
+
+}
+
+
+.rating div{
+  background-color: rgba(3, 165, 252, 0.5);
+    padding: 5px;
+    min-width: 100px;
+    /* margin: 0 8px; */
+    border-radius: 3px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    /* text-decoration: none; */
+    transition: 0.5s ease;
+
+}
+.rating div:hover{
+  background-color: var(--blue-color);
+    transform: scale(1.05);
+}
+.rating div a{
+  transition: 0.5s ease;
+  color: #fff;
+}
+
+.rating div a:hover {
+    color: black;
+}
+
+
+
+
+.trending-container{
+    display: flex;
+    overflow-y: hidden;
+    overflow-x: scroll;
+
+}
+
+.trending-container::-webkit-scrollbar{
+    display: none;
+}
+
+
+.contain {
+    position: relative;
+    height: 250px;
+    width: 150px;
+    transition: .5s ease;
+  }
+  
+  .contain .image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    height: auto;
+    transition: .5s ease;
+  }
+
+  .contain:hover .image{
+    transform: scale(1.09);
+    cursor: pointer;
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 150px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 110px;
+    width: 100%;
+    padding: 5px 10px;
+    opacity: 0;
+    transition: .5s ease;
+    background: var(--transparent);
+    /* background-color: #008CBA; */
+  }
+  
+  .contain:hover .overlay{
+    opacity: 1;
+  }
+  
+  .text h6{
+    color: #fff;
+    font-size: 14px;
+  }
+
+  .overlay p{
+    font-size: 14px;
+    margin-top: -10px;
+  }
+
+.collapse{
+    background-color: #000;
+}
+
+  .accordion-item .card-body{
+    background-color: rgba(0, 0, 0);
+    border: 1px solid #333;
+    cursor: pointer;
+    transition: .5s ease;
+  }
+  .accordion-item .card-body:hover{
+    border: 1px solid var(--blue-color);
+  }
+
+  .fa-star{
+    color: var(--blue-color);
+  }
+
+  .comment{
+    font-size: 14px;
+  }
+
+/* reviews */
+.card-body .avatar{      
+  width: 50px; 
+  height: 30px;
+}
+.avatar_backup{
+ font-size: medium;
+ background-color: #333;
+ width: 30px;
+ height:30px ;
+ padding-left: 10px;
+ padding-top: 3px;
+
+}
+
+
+/* add review */
+.review-form{
+  border: 2px solid var(--blue-color);
+}
+.input_box{
+  position: relative;
+  display: flex;
+  /* flex-direction: column; */
+}
+   input,textarea{
+    width: 100%;
+    background-color: rgba(0,0,0,0.25);
+    border: 2px solid #333;
+    outline: none;
+    color: #fff;
+    padding: 10px;
+}
+
+.input_box span{
+  position: absolute;
+  left: 0;
+  padding: 10px;
+  color: grey;
+  transition: .5s ;
+  pointer-events:none;
+
+}
+
+.input_box .error{
+  position: absolute;
+  left:0;
+  top: 40px;
+  padding: 10px;
+  color: grey;
+  transition: .5s ;
+  pointer-events:none;
+}
+
+.input_box  .error2{
+  position: absolute;
+  left: 0;
+  top: 135px;
+  padding: 10px;
+  color: grey;
+  transition: .5s ;
+  pointer-events:none;
+}
+
+.input_box input:focus ~ span,
+.input_box textarea:focus ~ span,
+.input_box input:valid ~ span,
+.input_box textarea:valid ~ span
+{
+  color: var(--blue-color);
+  transform: translateX(15px) translateY(-10px);
+  padding: 0 5px;
+  color: var(--blue-color);
+  background-color: #000;
+  font-size: 14px;
+  /* color: #000; */
+  /* border-radius: 5px; */
+  letter-spacing: 1px;
+  /* background-color:var(--blue-color); */
+  border-left: 2px solid var(--blue-color);
+  border-right: 2px solid var(--blue-color);
+
+}
+
+.input_box input:focus,
+.input_box textarea:focus,
+.input_box input:valid,
+.input_box textarea:valid
+{
+    border: 2px solid var(--blue-color);
+    background-color: rgba(0,0,0,0.25);
+    color: #fff;
+
+}
+
+.deleteEditDropdown{
+  margin-left: 100px;
+  padding-left: 90px;
+}
+
+.dropdown-menu{
+  margin-top: 20px;
+  background-color: rgba(0,0,0,0.25);
+  cursor: pointer;
+  border: 2px solid #333;
+}
+
+.dropdown-menu li a{
+  color: #fff;
+}
+.dropdown-menu li a:hover{
+  background-color:rgba(3, 165, 252, 0.5) ;
+  color: #fff;
+}
+
+.dropdown-menu li a:hover i{
+  color: var(--blue-color);
+}
+
+
+/* modal */
+.edit-modal{
+  margin-top: 100px;
+  /* background-color: rgba(0,0,0,0.25); */
+  background-color: #000;
+  border: 2px solid var(--blue-color);
+}
+.fa-circle-chevron-down{
+  transform: scale(1.2);
+
+}
+.fa-circle-chevron-down:focus{
+  transform: scale(1.06);
+  
+}
+
+
+
+
+
+@media (max-width:900px) {
+
+ 
+  .details-container h1{
+    font-weight: bold;
+    margin-top: -40px;
+}
+  .overview{
+    font-size: 16px;
+    margin-top: -10px;
+    text-align: justify;
+
+  }
+  .rating a,.rating div{
+    font-size: 14px;
+  }
+
+  .deleteEditDropdown{
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+@media (max-width:500px) {
+
+  .details-container h1{
+    font-weight: bold;
+    margin-top: -40px;
+}
+
+ 
+  .overview{
+    font-size: 16px;
+    margin-top: -10px;
+    text-align: justify;
+  }
+  .rating a,.rating div{
+    font-size: 14px;
+  }
+
+  .deleteEditDropdown{
+    margin-left: 0;
+    padding-left: 0;
+  }
+}

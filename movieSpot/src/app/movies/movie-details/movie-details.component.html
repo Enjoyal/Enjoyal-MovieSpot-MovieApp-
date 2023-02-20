@@ -1,0 +1,428 @@
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container ">
+        <a class="navbar-brand text-white" routerLink="">Movie<span>Spot.</span> </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-lg-0 ">
+                <li class="nav-item"><a class="nav-link " routerLink="">Home</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/movies/all-movies">Movies</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/movies/all-tvshows">TV Shows</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/movies/watch-list">+ Watchlist</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/movies/search">Search <i class="fa-solid fa-magnifying-glass"></i></a></li>
+            </ul>
+        </div>
+ 
+    </div>
+</nav>
+
+<section style=" background-image : linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.5)), url('https://image.tmdb.org/t/p/original/{{ movieDetails.backdrop_path }}');" *ngIf="movieDetails.length!==0">
+<div class="details-container">
+    <div class="row mt-5 p-5">
+        <div class="col-lg-2" *ngIf="movieDetails.poster_path">
+            <img class="w-100" src="https://image.tmdb.org/t/p/original/{{ movieDetails.poster_path }}" alt="">
+        </div>
+        <div class="col-lg-10 mt-5 p-3">
+            <h1 class=" mb-2">{{movieDetails.title || movieDetails.name}}</h1>
+            <p class="text-bg-secondary text-capitalize rounded-pill mb-4">{{extraMovieDetails.Type}} &#x2022; {{extraMovieDetails.Year}} &#x2022; {{extraMovieDetails.Runtime}}</p>
+
+            <p class="lead overview mb">{{movieDetails.overview}} </p>
+            <a id="trailer" class="btn btn-md mt-3"  href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank"><i class="fa fa-play"></i> Watch Trailer</a>
+            <button (click)="addtoWatchlist(movieDetails)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline btn-md ms-3 mt-3 watchlist"><i class="fa fa-plus"></i> Add to Watchlist</button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content popup-modal">
+                    <!-- <div class="modal-header">
+                     <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1> 
+                    <a type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></a>
+                    </div> -->
+                    <div class="modal-body text-capitalize text-center" *ngIf="successmsg=='Saved to Watchlist' ">
+                        Movie {{successmsg}} <i class="fa-regular fa-circle-check"></i>
+                    </div>
+                    <div class="modal-body text-capitalize text-center" *ngIf="successmsg=='already exist in the Watchlist' ">
+                        Movie {{successmsg}} <i class="fa-solid fa-circle-exclamation"></i>
+                    </div>
+                     <!-- without login -->
+                <div class="modal-body text-capitalize text-center" *ngIf="emsg">
+                    {{emsg}} <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+                </div>
+                </div>
+            </div>
+           
+            <!-- <iframe  src="https://youtube.com/embed/{{movieVideoKey}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen></iframe> -->
+        <div class="extradetails mt-4">
+          
+            <div class="rating row">
+                <div class="col-2 col-sm-2  col-xs-2" *ngIf="extraMovieDetails.Ratings!=undefined ">
+                    <a class="text-decoration-none" href="https://www.imdb.com/title/{{extraMovieDetails.imdbID}}/" target="_blank"> IMBD </a>
+                     <br>{{extraMovieDetails.Ratings[0].Value}}
+                </div>
+
+                <div class="col-2 ms-3" *ngIf="extraMovieDetails.Ratings.length==2">
+                    <a class="text-decoration-none" href="https://www.rottentomatoes.com" target="_blank">Rotten Tomatoes</a> 
+                    <br>{{extraMovieDetails.Ratings[1].Value}}
+                </div>
+            </div>
+          
+            <p class = "released"><b>Released Date:</b> {{extraMovieDetails.Released}}</p>
+            <p class = "genre"><b>Genre:</b> {{extraMovieDetails.Genre}}</p>
+            <p class = "writer"><b>Director:</b> {{extraMovieDetails.Director}}</p>
+            <p class = "writer"><b>Writer:</b> {{extraMovieDetails.Writer}}</p>
+            <p class = "actors"><b>Actors: </b>{{extraMovieDetails.Actors}}</p>
+            <p class = "language"><b>Language:</b> {{extraMovieDetails.Language}}</p>
+            <p class = "country language"><b>Country:</b> {{extraMovieDetails.Country}}</p>
+            <p *ngIf="extraMovieDetails.Awards!=='N/A' " class = "awards"><b><i class = "fas fa-award"></i></b> {{extraMovieDetails.Awards}}</p>
+        </div>
+        <!-- <div class="mt-4 p-4">
+                <h2 class="text-white">Top Cast</h2>
+                <div class="row">
+                <div class="col-lg-4" *ngFor="let cast of movieCast">
+                    <div class="row mt-2 mb-2">
+                        <div class="col-lg-2" *ngIf="cast.profile_path">
+                            <img class="w-100 rounded-circle" src="https://image.tmdb.org/t/p/original/{{ cast.profile_path}}">
+                        </div>
+                        <div class="col-lg-10">
+                            <h4 class="text-white">{{cast.original_name}}</h4>
+                            <p class="text-white">{{cast.character}}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
+        <!-- Casts -->
+        <div class="row">
+            <h5 class="text-white mt-3" *ngIf="movieCast.length!==0">Cast & Characters</h5>
+            <div class="trending-container" >
+                <div *ngFor="let cast of movieCast" >
+                    <div class="container contain pt-3">
+                        <img class="image rounded" src="https://image.tmdb.org/t/p/original/{{ cast.profile_path}}" *ngIf="cast.profile_path">
+                        <div class="overlay" *ngIf="cast.original_name" >
+                          <div class="text">
+                            <h6 class="text-white">{{cast.original_name}}</h6>
+                            <p class="lead ">{{cast.character}}</p>
+                         </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Reviews -->
+    <div class="mt-3">
+        <div class="" id="accordionFlushExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-headingOne">
+                <button class="btn review-btn" type="button"  data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                 Reviews 
+                </button>
+                 
+                <button (click)="reviewAdd()" class="btn btn-outline ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                    Add Review <i class="fa fa-paper-plane"></i>
+                   </button> 
+              </h2>
+
+              <div class="noReviews mt-5 pt-5" *ngIf="movieReview.length==0 && Reviews.length==0" id="flush-collapseOne" class="collapse collapse-fade" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                No Reviews Yet!
+            </div>
+            <!-- Collapse1 -->
+              <div *ngFor="let review of movieReview; let i=index" id="flush-collapseOne" class="collapse collapse-fade" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="card card-body mt-3">
+                   
+                    <div class="row mb-3">
+                        <img *ngIf="review.author_details.avatar_path && !review.author_details.avatar_path.includes('https')"  class="col-1 avatar rounded-circle"  
+                        src="https://image.tmdb.org/t/p/original/{{review.author_details.avatar_path}}" alt="">
+                        <img *ngIf="review.author_details.avatar_path!=null && review.author_details.avatar_path.includes('https')"  class="col-1 avatar rounded-circle"  src="{{review.author_details.avatar_path.slice(1)}}" alt="">
+                        <div *ngIf="review.author_details.avatar_path==null  "class="col-1 ms-2 text-capitalize text-center me-3 rounded-circle avatar_backup"><b>{{review.author.slice(0,1)}}</b></div>
+                        <p style="margin-left: -15px;" class="col-10"><b>{{review.author}}</b><br>
+                        <small class="text-secondary" style="font-size: 11px;">{{review.created_at | date:'short' }}</small>
+                        </p>
+                    </div>
+                    
+                    <h5><i class="fa fa-star"></i> {{review.author_details.rating}}</h5>
+                    <p class="comment lead">{{review.content}}</p>  
+                </div>
+              </div>
+              <!-- added reviews -->
+              <div *ngFor="let review of Reviews; let i=index" id="flush-collapseOne" class="collapse collapse-fade" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <div class="card card-body mt-3">
+                    <div class="row mb-3">
+                    <div *ngIf="review.uname" class="col-1 ms-2 text-capitalize text-center me-3 rounded-circle avatar_backup"><b>{{review.uname.slice(0,1)}}</b></div>
+                        <p style="margin-left: -15px;" class="col-9"><b>{{review.author}}</b> <br>
+                            <small class=" text-secondary" style="font-size: 11px;">{{review.reviewTime | date:'short' }}</small>
+                        </p>
+                        
+
+                        <div class="dropdown deleteEditDropdown col-1" >
+                            <i class="fa-sharp fa-solid fa-circle-chevron-down text-secondary" *ngIf="review.uname==currentUsername"  type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>                          
+                            <ul class="dropdown-menu mt-2">
+                            <li><a class="dropdown-item" (click)="deleteReview(review.id)">Delete</a></li>
+                            <li><a class="dropdown-item" (click)="editReview(review.rating,review.comment)" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Edit</a></li>
+                            </ul>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content edit-modal">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        
+                                <div class="modal-body">
+                                    <form [formGroup]="reviewForm" class="rounded p-5">
+                                        <div class="mb-5 input_box">
+                                          <input  placeholder="" [value]="rating"  formControlName="rating"  [class.is-invalid]="reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched"  type="text" class="form-control border-2 border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" required="required"><span class="border-2 border-secondary">Rate the movie,tv show..</span>
+                                          <small class="error text-danger" *ngIf="this.reviewForm.get('rating')?.errors && this.reviewForm.get('rating')?.touched"><i class="fa fa-exclamation-circle text-danger" ></i> invalid format</small>
+                                     
+                                        </div>
+                                        <div class="mb-3  input_box">
+                                          <textarea placeholder="" [value]="comment" formControlName="review"   [class.is-invalid]="reviewForm.get('review')?.invalid && reviewForm.get('review')?.touched" rows="5" type="text" class="form-control border-2 border-secondary" id="exampleInputPassword1" required="required"></textarea><span class="border-2 border-secondary" >Write comments here...</span>
+                                          <small  class="error2 text-danger" *ngIf="this.reviewForm.get('review')?.errors && this.reviewForm.get('review')?.touched" ><i class="fa fa-exclamation-circle text-danger" ></i> invalid format</small>
+                                        </div>
+                                        <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal">Close</button>
+                                        <button (click)="UpdatedReview(review.id)" type="button" class="btn review-btn ms-2 mt-3">Save Changes</button>
+                                      </form>
+                                </div>
+                               
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <h5><i class="fa fa-star"></i> {{review.rating}}</h5>
+                    <p class="comment lead">{{review.comment}}</p>  
+                </div>
+              </div>
+
+              <!-- Collapse2 review form-->
+              <div *ngIf="currentUsername" id="flush-collapseTwo" class="collapse collapse-fade mt-5" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <form [formGroup]="reviewForm" class="review-form rounded p-5">
+                    <div class="mb-5 input_box">
+                      <!-- <label for="exampleInputEmail1" class="form-label">Rating:</label> -->
+                      <input placeholder=""  formControlName="rating"  [class.is-invalid]="reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched"  type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required="required"><span>Rate the movie,tv show..</span>
+                      <small class="error text-danger" *ngIf="this.reviewForm.get('rating')?.errors && this.reviewForm.get('rating')?.touched"><i class="fa fa-exclamation-circle text-danger" ></i> invalid format</small>
+                 
+                      <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                    </div>
+                    <div class="mb-3  input_box">
+                      <!-- <label for="exampleInputPassword1" class="form-label">Review:</label> -->
+                      <textarea placeholder="" formControlName="review"   [class.is-invalid]="reviewForm.get('review')?.invalid && reviewForm.get('review')?.touched" rows="5" type="text" class="form-control" id="exampleInputPassword1" required="required"></textarea><span>Write comments here...</span>
+                      <small  class="error2 text-danger" *ngIf="this.reviewForm.get('review')?.errors && this.reviewForm.get('review')?.touched" ><i class="fa fa-exclamation-circle text-danger" ></i> invalid format</small>
+
+                    </div>
+                    <button (click)="addReview()"  type="submit" class="btn review-btn mt-3">Send <i class="fa fa-paper-plane"></i></button>
+                  </form>
+              </div>
+              <div *ngIf="emsg"  id="flush-collapseTwo" class="collapse collapse-fade mt-5" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                <h6>{{emsg}} </h6>
+              </div>
+
+            </div>
+        </div>
+    </div>
+        
+
+
+        </div>
+    </div>
+
+    
+</div>
+</section>
+
+
+<!-- Tv Shows -->
+<section style=" background-image : linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.5)), url('https://image.tmdb.org/t/p/original/{{ tvShowDetails.backdrop_path }}');" *ngIf="tvShowDetails.length!==0">
+
+<div class="details-container" >
+    <div class="row mt-5 p-5">
+        <div class="col-lg-2" >
+            <img class="w-100" src="https://image.tmdb.org/t/p/original/{{ tvShowDetails.poster_path }}" alt="" >
+        </div>
+        <div class="col-lg-10 mt-5 p-3">
+            <h1 class=" mb-2">{{tvShowDetails.title || tvShowDetails.name}}</h1>
+            <p class="text-bg-secondary text-capitalize rounded-pill mb-4">Tv Show &#x2022; {{tvShowDetails.first_air_date.slice(0,4)}} - {{tvShowDetails.last_air_date.slice(0,4)}}  &#x2022; {{tvShowDetails.number_of_seasons}} Seasons</p>
+
+            <p class="lead overview  mb">{{tvShowDetails.overview}} </p>
+            <a id="trailer" class="btn btn-md mt-3"  href="https://www.youtube.com/embed/{{tvShowVideoKey}}" target="_blank"><i class="fa fa-play"></i> Watch Trailer</a>
+            <button (click)="addtoWatchlist(tvShowDetails)"  data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-outline btn-md ms-3 mt-3 watchlist"><i class="fa fa-plus"></i> Add to Watchlist</button>
+             <!-- Modal -->
+             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content popup-modal" >
+                    <div class="modal-body text-capitalize text-center" *ngIf="successmsg=='Saved to Watchlist' ">
+                        TV Show {{successmsg}} <i class="fa-regular fa-circle-check"></i>
+                    </div>
+                    <div class="modal-body text-capitalize text-center" *ngIf="successmsg=='already exist in the Watchlist' ">
+                        TV Show {{successmsg}} <i class="fa-solid fa-circle-exclamation"></i>
+                    </div>
+                     <!-- without login -->
+                    <div class="modal-body text-capitalize text-center" *ngIf="emsg">
+                        {{emsg}} <i class="fa-solid fa-circle-exclamation"></i>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <!-- <iframe  src="https://youtube.com/embed/{{movieVideoKey}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen></iframe> -->
+        <div class="extradetails mt-4">
+          
+            <div class="rating row" *ngIf="tvShowDetails.vote_average!==0">
+                <div class="col-2">
+                    <a class="text-decoration-none" target="_blank"> Rating </a>
+                     <br>{{tvShowDetails.vote_average.toString().slice(0,3)}}
+                </div>
+
+            </div>
+           
+
+            <!-- <p class = "genre mt-4"><b>Genre:</b> {{tvShowDetails.type}}</p> -->
+            <p class ="genre"><b *ngIf="tvShowDetails.genres.length!==0">Genre: </b> <span *ngFor="let genre of tvShowDetails.genres">{{genre.name}}, </span></p>
+            <p> <b *ngIf="tvShowDetails.created_by.length!==0">Creators: </b> <span class ="writer"  *ngFor="let creator of tvShowDetails.created_by">{{creator.name}}, </span></p>
+            <p class = "released"><b>Released Date:</b> {{tvShowDetails.first_air_date}} -  {{tvShowDetails.last_air_date}}</p>
+            <p class = "released"><b>No. of Seasons:</b> {{tvShowDetails.number_of_seasons}} Seasons, {{tvShowDetails.number_of_episodes}} Episodes </p>
+            <!-- <p *ngIf="extraMovieDetails.Awards!=='N/A' " class = "awards"><b><i class = "fas fa-award"></i></b> {{extraMovieDetails.Awards}}</p> -->
+        </div>
+        <div class="row mt-3">
+            <h5 class="text-white fw-bold mt-3" *ngIf="tvShowCast.length!==0">Cast & Characters</h5>
+            <div class="trending-container" >
+                <div *ngFor="let cast of tvShowCast" >
+                    <div class="container contain pt-3">
+                        <img class="image rounded" src="https://image.tmdb.org/t/p/original/{{ cast.profile_path}}">
+                        <div class="overlay" *ngIf="cast.original_name" >
+                          <div class="text">
+                            <h6 class="text-white">{{cast.original_name}}</h6>
+                            <p class="lead">{{cast.character}}</p>
+                         </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   <!-- Reviews -->
+   <div class="mt-3">
+    <div class="" id="accordionFlushExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="flush-headingOne">
+            <button class="btn review-btn" type="button"  data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+             Reviews 
+            </button>
+             
+            <button (click)="reviewAdd()" class="btn btn-outline ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                Add Review <i class="fa fa-paper-plane"></i>
+               </button> 
+          </h2>
+
+          <div class="noReviews mt-5 pt-5" *ngIf="tvReview.length==0 && Reviews.length==0" id="flush-collapseOne" class="collapse collapse-fade" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            No Reviews Yet!
+        </div>
+        <!-- Collapse1 -->
+          <div *ngFor="let review of tvReview; let i=index" id="flush-collapseOne" class="collapse collapse-fade" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="card card-body mt-3">
+               
+                <div class="row mb-3">
+                    <img *ngIf="review.author_details.avatar_path && !review.author_details.avatar_path.includes('https')"  class="col-1 avatar rounded-circle"  
+                    src="https://image.tmdb.org/t/p/original/{{review.author_details.avatar_path}}" alt="">
+                    <img *ngIf="review.author_details.avatar_path!=null && review.author_details.avatar_path.includes('https')"  class="col-1 avatar rounded-circle"  src="{{review.author_details.avatar_path.slice(1)}}" alt="">
+                    <div *ngIf="review.author_details.avatar_path==null" class="col-1 ms-2 text-capitalize text-center me-3 rounded-circle avatar_backup"><b>{{review.author.slice(0,1)}}</b></div>
+                    <p style="margin-left: -15px;" class="col-10"><b>{{review.author}}</b><br>
+                    <small class="text-secondary" style="font-size: 11px;">{{review.created_at | date:'short' }}</small>
+                    </p>
+                </div>
+                
+                <h5><i class="fa fa-star"></i> {{review.author_details.rating}}</h5>
+                <p class="comment lead">{{review.content}}</p>  
+            </div>
+          </div>
+          <!-- added reviews -->
+          <div *ngFor="let review of Reviews; let i=index" id="flush-collapseOne" class="collapse collapse-fade" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div class="card card-body mt-3">
+                <div class="row mb-3">
+                <div *ngIf="review.uname" class="col-1 ms-2 text-capitalize text-center me-3 rounded-circle avatar_backup"><b>{{review.uname.slice(0,1)}}</b></div>
+                    <p style="margin-left: -15px;" class="col-9"><b>{{review.author}}</b> <br>
+                        <small class=" text-secondary" style="font-size: 11px;">{{review.reviewTime | date:'short' }}</small>
+                    </p>
+                    
+
+                    <div class="dropdown deleteEditDropdown col-1" >
+                        <i class="fa-sharp fa-solid fa-circle-chevron-down text-secondary" *ngIf="review.uname==currentUsername"  type="button" data-bs-toggle="dropdown" aria-expanded="false"></i>                          
+                        <ul class="dropdown-menu mt-2">
+                        <li><a class="dropdown-item" (click)="deleteReview(review.id)">Delete</a></li>
+                        <li><a class="dropdown-item" (click)="editReview(review.rating,review.comment)" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" >Edit</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content edit-modal">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <div class="modal-body">
+                                <form [formGroup]="reviewForm" class="rounded p-5">
+                                    <div class="mb-5 input_box">
+                                      <input  placeholder="" [value]="rating"  formControlName="rating"  [class.is-invalid]="reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched"  type="text" class="form-control border-2 border-secondary" id="exampleInputEmail1" aria-describedby="emailHelp" required="required"><span class="border-2 border-secondary">Rate the movie,tv show..</span>
+                                      <small class="error text-danger" *ngIf="this.reviewForm.get('rating')?.errors && this.reviewForm.get('rating')?.touched"><i class="fa fa-exclamation-circle text-danger" ></i> invalid format</small>
+                                 
+                                    </div>
+                                    <div class="mb-3  input_box">
+                                      <textarea placeholder="" [value]="comment" formControlName="review"   [class.is-invalid]="reviewForm.get('review')?.invalid && reviewForm.get('review')?.touched" rows="5" type="text" class="form-control border-2 border-secondary" id="exampleInputPassword1" required="required"></textarea><span class="border-2 border-secondary" >Write comments here...</span>
+                                      <small  class="error2 text-danger" *ngIf="this.reviewForm.get('review')?.errors && this.reviewForm.get('review')?.touched" ><i class="fa fa-exclamation-circle text-danger" ></i> invalid format</small>
+                                    </div>
+                                    <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal">Close</button>
+                                    <button (click)="UpdatedReview(review.id)" type="button" class="btn review-btn ms-2 mt-3">Save Changes</button>
+                                  </form>
+                            </div>
+                             <!-- without login -->
+                             <div class="modal-body text-capitalize text-center" *ngIf="emsg">
+                                {{emsg}} <i class="fa-solid fa-circle-exclamation"></i>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <h5><i class="fa fa-star"></i> {{review.rating}}</h5>
+                <p class="comment lead">{{review.comment}}</p>  
+            </div>
+          </div>
+          <!-- Collapse2 review form-->
+          <div *ngIf="currentUsername" id="flush-collapseTwo" class="collapse collapse-fade mt-5" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <form [formGroup]="reviewForm" class="review-form rounded p-5">
+                <div class="mb-5 input_box">
+                  <!-- <label for="exampleInputEmail1" class="form-label">Rating:</label> -->
+                  <input placeholder=""  formControlName="rating"  [class.is-invalid]="reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched"  type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required="required"><span>Rate the movie,tv show..</span>
+                  <small class="error text-danger" *ngIf="this.reviewForm.get('rating')?.errors && this.reviewForm.get('rating')?.touched"><i class="fa fa-exclamation-circle text-danger" ></i> invalid format</small>
+             
+                  <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+                </div>
+                <div class="mb-3  input_box">
+                  <!-- <label for="exampleInputPassword1" class="form-label">Review:</label> -->
+                  <textarea placeholder="" formControlName="review"   [class.is-invalid]="reviewForm.get('review')?.invalid && reviewForm.get('review')?.touched" rows="5" type="text" class="form-control" id="exampleInputPassword1" required="required"></textarea><span>Write comments here...</span>
+                  <small  class="error2 text-danger" *ngIf="this.reviewForm.get('review')?.errors && this.reviewForm.get('review')?.touched" ><i class="fa fa-exclamation-circle text-danger" ></i> invalid format</small>
+
+                </div>
+                <button (click)="addReview()"  type="submit" class=" btn review-btn  mt-3">Send <i class="fa fa-paper-plane"></i></button>
+              </form>
+          </div>
+          <div *ngIf="emsg"   id="flush-collapseTwo" class="collapse collapse-fade mt-5" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <h6>{{emsg}} </h6>
+          </div>
+
+        </div>
+    </div>
+</div>
+
+
+        </div>
+    </div>
+
+    
+</div>
+
+</section>
+

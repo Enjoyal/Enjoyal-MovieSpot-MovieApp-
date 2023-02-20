@@ -1,0 +1,349 @@
+
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand text-white" routerLink="">Movie<span>Spot.</span> </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div  class="collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav  mb-2 mb-lg-0 ">
+                <li class="nav-item"><a style="background-color:var(--blue-color);" class="nav-link" routerLink="">Home</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/movies/all-movies">Movies</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/movies/all-tvshows">TV Shows</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/movies/watch-list">+ Watchlist</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/movies/search">Search <i class="fa-solid fa-magnifying-glass"></i> </a></li>
+                
+            </ul>
+            <ul class="navbar-nav  mb-2 mb-lg-0 ms-auto  ">
+                <li class="nav-item ">
+                    <!-- withoutlogin -->
+                    <div class="login-dropdown dropdown col-2" *ngIf="!currentUser">
+                        <button class="btn  dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Login/Register
+                        </button>
+                        <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" routerLink="/movies/login"><i class="fa-solid fa-right-to-bracket"></i> Login</a></li>
+                        <li><a class="dropdown-item" routerLink="/movies/register"><i class="fa-solid fa-user-plus"></i> Register</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="btn-group" *ngIf="currentUser">
+                        <span class="text-uppercase me-3 mt-2">{{fullname}}</span>
+                        <button type="button" class="btn dropdown-toggle dropdown-toggle-split rounded" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user"></i>  &nbsp; <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" (click)="logout()"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a></li>
+                          <li><hr class="dropdown-divider"></li>
+                          <li><a class="dropdown-item" (click)="DeleteUser()" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal2"><i class="fa fa-duotone fa-trash"></i> Delete Account</a></li>
+                        </ul>
+                      </div>
+                </li>
+            </ul>
+
+        </div>
+        <!-- Example split danger button -->
+
+    </div>
+</nav>
+
+
+<!-- <app-delete [item]="uname" (onCancel)="onCancel()" (onDelete)="onDelete($event)"></app-delete> -->
+<div class="parent" [ngClass]="uname? 'style1' : '' "  >
+<!-- banner-->
+<header>
+    <div class="contain-fluid">
+        <div id="carouselExampleDark" class="carousel carousel-dark slide " data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000" *ngFor="let item of bannerData; let i=index" 
+            [ngClass]="{active:i===1}">
+            
+            <img class="d-block w-100" src="https://image.tmdb.org/t/p/original/{{ item.backdrop_path }}" alt="...">
+            <div class="carousel-caption mt-5 ms-3 w-100  text-start  ">
+                <h2 class=" fw-bolder text-white mb-2">{{item.title || item.name}}</h2>
+                <p class="lead overview mb-4">{{item.overview.slice(0,250)+"..."}}</p>
+                <!-- to minimize -->
+                <p class="lead overview2 mb-4">{{item.overview.slice(0,100)+"..."}}</p>
+
+                <div class="row gap-3">
+                    <div class=" col-12 col-sm-12 col-xs-12 col d-flex">
+                        <a class="play-btn btn btn-md " (click)="getMovieVideo(item,item.media_type)" href="https://www.youtube.com/embed/{{movieVideoKey}}"  target="_blank" ><i class="fa fa-play"></i> Watch Trailer</a>
+                        <a (click)="movieId(item)" class="learn-btn btn btn-md ms-3" routerLink="/movie-details"><i class="fa fa-exclamation-circle"></i> Learn More</a>
+                    </div>
+                    <!-- <div class=" col-4"></div> -->
+                </div>
+            </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+        </div>
+    </div>
+</header>
+
+
+<!-- section -->
+
+<div class="movies-collection mt-3 p-2">
+    <!-- trending movies -->
+    <div class="row">
+        <h5 class="text-white ">Trending Movies</h5>
+        <div class="trending-container" >
+            <div *ngFor="let t of trendingData" >
+                <div class="container contain">
+                    <img *ngIf="trendingData.length==0" class="image" (click)="movieId(t)" routerLink="/movie-details" src="../assets/images/image_not_found.png" alt="...">
+                    <img class="image" (click)="movieId(t)" routerLink="/movie-details" src="https://image.tmdb.org/t/p/original/{{ t.poster_path }}" alt="...">
+                    <div class="more-container">
+                      <div class="dropdown  col-1" >
+                        <i class="more-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                          </svg></i>
+                        <ul class="dropdown-menu dropdown-more  mt-2">
+                        <li><a (click)="getMovieVideo(t,'movie')" class="dropdown-item" href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank" ><i class="fa fa-light fa-circle-play rounded-circle"></i> Watch Trailer</a></li>
+                        <li><a class="dropdown-item" (click)="addtoWatchlist(t)" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="fa fa-plus"></i> Save to Watchlist</a></li>
+                        </ul>
+                    </div>
+                    </div>
+                    <div class="overlay" *ngIf="t.title || t.name" >
+                      <div class="text">
+                        <h6>{{t.title || t.name}}</h6>
+                     </div>
+                     <p class="text-secondary">{{(t.release_date || t.first_air_date).slice(0,4)}} &#x2022; {{(t.release_date)? 'Movie' : 'TV Show'}}</p>
+                     <p class="rating" *ngIf="t.vote_average!=0 || t.vote_average"> <i class="fa fa-star"></i> {{t.vote_average.toString().slice(0,3)}}</p> 
+
+                      <div class="icon-container  text-center">
+                        <a (click)="getMovieVideo(t,'movie')" class="fa fa-light fa-circle-play rounded-circle"  href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank" > </a>
+                        <a  (click)="addtoWatchlist(t)"  class="fa-solid fa-plus rounded-circle ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal"></a>
+                        <a (click)="movieId(t)" class="fa fa-solid fa-arrow-up-right-from-square rounded-circle ms-2"  routerLink="/movie-details"  > </a>
+                        
+                      </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<!-- trending tvshows -->
+    <div class="row mt-5">
+        <h5 class="text-white">Trending Tv Shows</h5>
+        <div class="trending-container" >
+            <div *ngFor="let trending of trendingTvShows" >
+
+                <div class="container contain">
+                    <img class="image" (click)="movieId(trending)" routerLink="/movie-details" src="https://image.tmdb.org/t/p/original/{{ trending.poster_path }}" alt="">
+                    <!-- for minimize -->
+                    <div class="more-container">
+                        <div class="dropdown  col-1" >
+                          <i class="more-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg></i>
+                          <ul class="dropdown-menu dropdown-more  mt-2">
+                          <li><a (click)="getMovieVideo(trending,'tv')" class="dropdown-item" href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank" ><i class="fa fa-light fa-circle-play rounded-circle"></i> Watch Trailer</a></li>
+                          <li><a class="dropdown-item" (click)="addtoWatchlist(trending)" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="fa fa-plus"></i> Save to Watchlist</a></li>
+                          </ul>
+                      </div>
+                      </div>
+                    <div class="overlay" *ngIf="trending.name" >
+                      <div class="text"><h6>{{trending.name}}</h6></div>
+                      <p class="text-secondary">{{trending.first_air_date.slice(0,4)}} &#x2022; {{(trending.release_date)? 'Movie' : 'TV Show'}}</p>
+                      <p class="rating" *ngIf="trending.vote_average!=0 || trending.vote_average"><i class="fa fa-star"></i> {{trending.vote_average.toString().slice(0,3)}}</p> 
+                      <div class="icon-container  text-center">
+                        <a (click)="getMovieVideo(trending,'tv')" href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank" class="fa fa-light fa-circle-play rounded-circle"></a>
+                        <a  (click)="addtoWatchlist(trending)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="fa-solid fa-plus rounded-circle ms-2"></a>
+                        <a (click)="movieId(trending)" class="fa fa-solid fa-arrow-up-right-from-square rounded-circle ms-2"  routerLink="/movie-details"  > </a>
+                    
+
+                      </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <!-- Toprated movies -->
+    <div class="row mt-5">
+        <h5 class="text-white">Top Rated Movies</h5>
+        <div class="trending-container" >
+            <div *ngFor="let toprated of topratedMovies" >
+
+                <div class="container contain">
+                    <img class="image" (click)="movieId(toprated)" routerLink="/movie-details" src="https://image.tmdb.org/t/p/original/{{ toprated.poster_path }}" alt="...">
+                    <!-- for minimize -->
+                    <div class="more-container">
+                        <div class="dropdown  col-1" >
+                          <i class="more-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg></i>
+                          <ul class="dropdown-menu dropdown-more  mt-2">
+                          <li><a (click)="getMovieVideo(toprated,'movie')" class="dropdown-item" href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank" ><i class="fa fa-light fa-circle-play rounded-circle"></i> Watch Trailer</a></li>
+                          <li><a class="dropdown-item" (click)="addtoWatchlist(toprated)" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="fa fa-plus"></i> Save to Watchlist</a></li>
+                          </ul>
+                      </div>
+                      </div>
+                    <div class="overlay" *ngIf="toprated.title" >
+                      <div class="text"><h6>{{toprated.title || toprated.name}}</h6></div>
+                      <p class="text-secondary">{{(toprated.release_date || toprated.first_air_date).slice(0,4)}} &#x2022; {{(toprated.release_date)? 'Movie' : 'TV Show'}}</p>
+                      <p class="rating" *ngIf="toprated.vote_average!=0 || toprated.vote_average"><i class="fa fa-star"></i> {{toprated.vote_average.toString().slice(0,3)}}</p> 
+                      <div class="icon-container  text-center">
+                        <a (click)="getMovieVideo(toprated,'movie')" href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank" class="fa fa-light fa-circle-play rounded-circle"></a>
+                        <a  (click)="addtoWatchlist(toprated)" data-bs-toggle="modal" data-bs-target="#exampleModal" class="fa-solid fa-plus rounded-circle ms-2"></a>
+                        <a (click)="movieId(toprated)" class="fa fa-solid fa-arrow-up-right-from-square rounded-circle ms-2"  routerLink="/movie-details"  > </a>
+                    
+
+                      </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Popular movies -->
+    <div class="row mt-5">
+        <h5 class="text-white">Popular Movies</h5>
+        <div class="trending-container" >
+            <div *ngFor="let popular of popularMovies" >
+
+                <div class="container contain">
+                    <img class="image" (click)="movieId(popular)" routerLink="/movie-details" src="https://image.tmdb.org/t/p/original/{{ popular.poster_path }}" alt="...">
+                    <!-- for minimize -->
+                    <div class="more-container">
+                        <div class="dropdown  col-1" >
+                          <i class="more-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg></i>
+                          <ul class="dropdown-menu dropdown-more  mt-2">
+                          <li><a (click)="getMovieVideo(popular,'movie')" class="dropdown-item" href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank" ><i class="fa fa-light fa-circle-play rounded-circle"></i> Watch Trailer</a></li>
+                          <li><a class="dropdown-item" (click)="addtoWatchlist(popular)" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="fa fa-plus"></i> Save to Watchlist</a></li>
+                          </ul>
+                      </div>
+                      </div>
+                    <div class="overlay" *ngIf="popular.title" >
+                      <div class="text"><h6>{{popular.title || popular.name}}</h6></div>
+                      <p class="text-secondary">{{(popular.release_date || popular.first_air_date).slice(0,4)}} &#x2022; {{(popular.release_date)? 'Movie' : 'TV Show'}}</p>
+                      <p class="rating" *ngIf="popular.vote_average!=0 || popular.vote_average"><i class="fa fa-star"></i> {{popular.vote_average.toString().slice(0,3)}}</p> 
+                      <div class="icon-container  text-center">
+                        <a (click)="getMovieVideo(popular,'movie')"  href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank" class="fa fa-light fa-circle-play rounded-circle"></a>
+                        <a  (click)="addtoWatchlist(popular)" class="fa-solid fa-plus rounded-circle ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal"></a>
+                        <a  (click)="movieId(popular)" class="fa fa-solid fa-arrow-up-right-from-square rounded-circle ms-2" routerLink="/movie-details"  > </a>
+                      </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Upcoming movies -->
+    <div class="row mt-5">
+        <h5 class="text-white">Upcoming Movies</h5>
+        <div class="trending-container" >
+            <div *ngFor="let upcoming of upcomingMovies" >
+
+                <div class="container contain">
+                    <img class="image" (click)="movieId(upcoming)" routerLink="/movie-details" src="https://image.tmdb.org/t/p/original/{{ upcoming.poster_path }}" alt="...">
+                    <!-- for minimize -->
+                    <div class="more-container">
+                        <div class="dropdown  col-1" >
+                          <i class="more-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                            </svg></i>
+                          <ul class="dropdown-menu dropdown-more  mt-2">
+                          <li><a (click)="getMovieVideo(upcoming,'movie')" class="dropdown-item" href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank" ><i class="fa fa-light fa-circle-play rounded-circle"></i> Watch Trailer</a></li>
+                          <li><a class="dropdown-item" (click)="addtoWatchlist(upcoming)" type="button"  data-bs-toggle="modal" data-bs-target="#exampleModal" ><i class="fa fa-plus"></i> Save to Watchlist</a></li>
+                          </ul>
+                      </div>
+                      </div>
+                    <div class="overlay" *ngIf="upcoming.original_title" >
+                      <div class="text"><h6>{{upcoming.title || upcoming.name}}</h6></div>
+                      <p class="text-secondary">{{(upcoming.release_date || upcoming.first_air_date).slice(0,4)}} &#x2022; {{(upcoming.release_date)? 'Movie' : 'TV Show'}}</p>
+                      <p class="rating" *ngIf="upcoming.vote_average!=0 || upcoming.vote_average"><i class="fa fa-star"></i> {{upcoming.vote_average.toString().slice(0,3)}}</p> 
+                      <div class="icon-container  text-center">
+                        <a (click)="getMovieVideo(upcoming,'movie')" href="https://www.youtube.com/embed/{{movieVideoKey}}" target="_blank"  class="fa fa-light fa-circle-play rounded-circle"></a>
+                        <a  (click)="addtoWatchlist(upcoming)" class="fa-solid fa-plus rounded-circle ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal"></a>
+                        <a (click)="movieId(upcoming)" class="fa fa-solid fa-arrow-up-right-from-square rounded-circle ms-2"  routerLink="/movie-details"  > </a>
+
+                      </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+         <!-- Modal-popup -->
+         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content popup-modal ">
+                
+                <div class="modal-body text-capitalize text-center" *ngIf="successmsg=='Saved to Watchlist' ">
+                    Movie {{successmsg}} <i class="fa-regular fa-circle-check"></i>
+                </div>
+                <div class="modal-body text-capitalize text-center" *ngIf="successmsg=='already exist in the Watchlist' ">
+                    Movie {{successmsg}} <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+                <!-- without login -->
+                <div class="modal-body text-capitalize text-center" *ngIf="emsg">
+                    {{emsg}} <i class="fa-solid fa-circle-exclamation"></i>
+                </div>
+              
+            </div>
+            </div>
+        </div>
+
+
+    <!-- logoutDeleteModal -->
+        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md  modal-dialog-centered">
+                <!--logout/delete modal-->
+                <div *ngIf="uname" class="modal-content deleteAcc-modal ">
+                    <div  class=" text-capitalize text-center" >
+                            <!-- ngif - it will display only after clicking the delete btn -->
+                            <h6>Are you sure, Do you want to delete this account? <br><span  class="text-lowercase"> {{uname}}</span> </h6>
+                            <button class="btn btn-outline-danger mt-2" data-bs-dismiss="modal" (click)="onDelete()">Yes</button>
+                            <button class="btn btn-outline-success ms-3 mt-2"data-bs-dismiss="modal" (click)="onCancel()">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+</div>
+</div>
+
+<section class="about-section" style=" background-image : linear-gradient(to right, rgba(18, 76, 124, 0.8) 100%, rgba(59, 113, 158, 0.8) 100%), url('https://image.tmdb.org/t/p/original/{{ backDropImage.backdrop_path }}');">
+    <div class="row ">
+        <div class="col-12 p-4">
+            <h3 class="text-center text-capitalize ">About Us</h3>
+
+            <div class="text-container">
+                <p class=" lead">
+                    Welcome to MovieSpot. My goal is to provide a comprehensive, user-friendly experience that helps you discover and enjoy your favorite movies.
+                    This app offers a wide selection of movies from various genres, so you can find something that suits your taste.
+                    I believe that watching movies is not just about entertainment, but also a way to broaden your horizons and learn about different cultures and perspectives. 
+                    That's why i strive to bring you a diverse range of content that is both entertaining and educational. I understand that everyone has different preferences when it comes to movie watching, so i have designed this app to be customizable to your preferences.
+                    You can create your own watchlist, rate & comment on movies you've seen. It also provide comprehensive information about each movie, including ratings, reviews, cast and crew information, and more, so you can make informed decisions about what to watch next.
+                    Thank you for choosing MovieSpot., and I hope you enjoy your movie-watching experience with us!
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>

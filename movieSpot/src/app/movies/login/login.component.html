@@ -1,0 +1,34 @@
+<!-- <p>login works!</p> -->
+<section style="background-image : linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.3)), url('{{imageVideoUrl}}{{backDrop.backdrop_path}}');">
+<div class="container w-25 py-5 login" style="min-width: 350px;">
+    <div  class="card  text-white" style="border-radius: 1rem;">
+      <div class="card-body p-4 text-center">
+        <a class="navbar-brand text-white">Movie<span>Spot.</span> </a>
+          <!-- <h2 class="fw-bold mb-2 text-white">Sign In</h2> -->
+          <p class="text-white-50 mb-4 mt-2">Please enter username and password!</p>
+
+          <form class="" [formGroup]="loginForm" action="">
+
+          <div class="form-outline text-start form-white mb-4 ">
+            <div class="input_box"><input type="text" id="log_uname"  formControlName="uname"  [class.is-invalid]="loginForm.get('uname')?.invalid && loginForm.get('uname')?.touched"  placeholder="" class="form-control" required="required"/> <span>Username</span></div>
+            <small class="error text-danger " *ngIf="this.loginForm.get('uname')?.errors && this.loginForm.get('uname')?.touched"><i class="fa fa-exclamation-circle text-danger"></i> Invalid username</small>
+
+            <div class="input_box mt-3"><input type="password" id="log_pswd" formControlName="pswd" [class.is-invalid]="loginForm.get('uname')?.invalid && loginForm.get('uname')?.touched" placeholder="" class="form-control"  required="required"/> <span>Password</span></div>
+            <small class="error2 text-danger" *ngIf="this.loginForm.get('pswd')?.errors && this.loginForm.get('pswd')?.touched"><i class="fa fa-exclamation-circle text-danger"></i> Incorrect password</small>
+
+          </div>
+            
+          <!-- <p class="small mb-3 pb-lg-2"><a class="text-white-50" href="#">Forgot password?</a></p> -->
+
+          <button class="btn btn-outline px-4" (click)="login()" type="submit">Sign In</button>
+
+          <p class="text-white-50 mt-4">Don't have an account? <br> <a routerLink="/register" class="text-white fw-bold">Sign Up</a></p>
+        
+        </form>
+
+      </div>
+      
+    </div>
+</div>
+
+</section>

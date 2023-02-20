@@ -1,0 +1,102 @@
+  <!-- Navigation-->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand text-white" routerLink="">Movie<span>Spot.</span> </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mb-2 mb-lg-0 ">
+                <li class="nav-item"><a class="nav-link " routerLink="">Home</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/movies/all-movies">Movies</a></li>
+                <li class="nav-item"><a class="nav-link " routerLink="/movies/all-tvshows">TV Shows</a></li>
+                <li class="nav-item"><a style="background-color:var(--blue-color);"  class="nav-link" routerLink="/movies/watch-list">+ Watchlist</a></li>
+                <li class="nav-item"><a class="nav-link" routerLink="/movies/search">Search <i class="fa-solid fa-magnifying-glass"></i></a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!-- Empty Watchlist -->
+
+<div class="empty ms-4" style="width: 100%; margin-top: 110px;" >
+    <div class="container w-100 m-5 p-5" *ngIf="emsg ">
+        <div class="row text-center align-items-center">
+            <div class="col">
+                <img style="width: 200px;" src="https://cdn.shopify.com/s/files/1/0315/5165/1899/t/2/assets/empty-wishlist.png?v=141658177206755846691581744316" alt="">
+                <h3> Your Watch List is Empty!</h3>
+                <button  routerLink="" class="btn btn-md mt-2" *ngIf="emsg!='Login'">{{emsg}}</button>
+                <button  routerLink="/movies/login" class="btn btn-md mt-2" *ngIf="emsg=='Login'">{{emsg}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row row-cols-xl-6 ps-2 pe-5 justify-content-justify">
+<div class="col" *ngFor="let movie of watchlist">
+
+    <div class="container contain">
+        <img (click)="movieId(movie)" routerLink="/movie-details"  class="image"  src="https://image.tmdb.org/t/p/original/{{ movie.poster_path }}" alt="..." >
+        <div class="overlay"  >
+          <div class="text mt-2">
+            <h6>{{movie.title || movie.name}}</h6>
+        </div>
+        <p class="text-secondary text-capitalize">{{(movie.release_date || movie.first_air_date).slice(0,4)}}  &#x2022; {{(movie.media_type=='movie')? 'Movie' : 'TV Show'}} </p>
+        <p class="rating"> <i class="fa fa-star"></i> {{movie.vote_average.toString().slice(0,3)}}</p>
+          <div class="icon-container  text-center">
+            <a href="/watch-list"  class="fa fa-light fa-circle-play rounded-circle "></a>
+            <a (click)="onDelete(movie)" class="fa-solid fa-times rounded-circle ms-3" data-bs-toggle="modal" data-bs-target="#exampleModal"></a>
+          </div>
+        </div>
+    </div>
+
+
+
+    
+
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md ">
+      <div class="modal-content popup-modal">
+        <div class="modal-body text-center">
+           <p> Are you sure, Do you want to remove this {{mediaType}} from the Watchlist? <b>{{movieortvName}}</b> </p>
+           
+            <button  (click)="deleteWatch()" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Yes</button>
+            <button type="button" class="btn btn-outline-success ms-2"  data-bs-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+</div>
+
+
+
+<!-- empty btn -->
+<div class="row pt-5" *ngIf="watchlist.length!==0">
+  <div class="col-4  m-4">
+    <button class="btn btn-outline empty-btn" data-bs-toggle="modal" data-bs-target="#exampleModal2" >
+      <i class="fa fa-trash"></i> Empty Watchlist
+    </button>
+  </div>
+  <div class="col-6"></div>
+
+      <!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md ">
+    <div class="modal-content popup-modal">
+      <div class="modal-body text-center">
+         <p> Are you sure, Do you want to remove all from the Watchlist?</p>
+         
+          <button  (click)="emptyWatchlist()" type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Yes</button>
+          <button type="button" class="btn btn-outline-success ms-2"  data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
